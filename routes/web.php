@@ -34,6 +34,15 @@ Route::middleware('auth')->group(function () {
 
     // User BREAD/CRUD routes
     Route::resource('users', UserController::class);
+    Route::get('users/{user}/delete', [UserController::class, 'delete'])->name('users.delete'); 
+
+    //Trash Routes//
+    Route::get('users/trash', [UserController::class, 'trash'])->name('users.trash');
+    Route::patch('users/trash/{id}/recover', [UserController::class, 'recoverOne'])->name('users.recover-one');
+    Route::delete('users/trash/empty', [UserController::class, 'emptyAll'])->name('users.empty-all');
+    Route::delete('users/trash/{id}/empty-one', [UserController::class, 'emptyOne'])->name('users.empty-one');
+    Route::patch('users/trash/recover-all', [UserController::class, 'recoverAll'])->name('users.recover-all');
+
 });
 
 // Include authentication routes (login, register, password reset, etc.)
