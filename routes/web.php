@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\JokeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -34,15 +35,27 @@ Route::middleware('auth')->group(function () {
 
     // User BREAD/CRUD routes
     Route::resource('users', UserController::class);
-    Route::get('users/{user}/delete', [UserController::class, 'delete'])->name('users.delete'); 
+    Route::get('users/{user}/delete', [UserController::class, 'delete'])->name('users.delete');
 
-    //Trash Routes//
+    //User Trash Routes
     Route::get('users/trash', [UserController::class, 'trash'])->name('users.trash');
     Route::patch('users/trash/{id}/recover', [UserController::class, 'recoverOne'])->name('users.recover-one');
     Route::delete('users/trash/empty', [UserController::class, 'emptyAll'])->name('users.empty-all');
     Route::delete('users/trash/{id}/empty-one', [UserController::class, 'emptyOne'])->name('users.empty-one');
     Route::patch('users/trash/recover-all', [UserController::class, 'recoverAll'])->name('users.recover-all');
 
+    // Joke BREAD/CRUD routes
+    Route::resource('jokes', JokeController::class);
+    Route::get('jokes/{joke}/delete', [JokeController::class, 'delete'])->name('jokes.delete'); // For delete confirmation page
+
+    // Joke Trash Routes
+    Route::prefix('jokes/trash')->name('jokes.')->group(function () {
+        Route::get('/', [JokeController::class, 'trash'])->name('trash');
+        Route::patch('/{id}/recover', [JokeController::class, 'recoverOne'])->name('recover-one');
+        Route::delete('/{id}/empty-one', [JokeController::class, 'emptyOne'])->name('empty-one');
+        Route::patch('/recover-all', [JokeController::class, 'recoverAll'])->name('recover-all');
+        Route::delete('/empty', [JokeController::class, 'emptyAll'])->name('empty-all');
+    });
 });
 
 // Include authentication routes (login, register, password reset, etc.)
