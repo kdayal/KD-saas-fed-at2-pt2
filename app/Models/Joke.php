@@ -14,13 +14,20 @@ class Joke extends Model
         'user_id',
         'title',
         'content',
-        'category',
+        
        
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+     /**
+     * The categories that belong to the joke.
+     */
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class); // Pivot table name 'category_joke' will be inferred
     }
 }
 

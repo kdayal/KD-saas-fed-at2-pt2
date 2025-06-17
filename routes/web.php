@@ -56,6 +56,10 @@ Route::middleware('auth')->group(function () {
         Route::patch('/recover-all', [JokeController::class, 'recoverAll'])->name('recover-all');
         Route::delete('/empty', [JokeController::class, 'emptyAll'])->name('empty-all');
     });
+    Route::middleware(['roleOrPermission:Administrator|Roles & Permissions'])->prefix('admin')->name('admin.')->group(function () {
+    // ...
+});
+
 });
 
 // Include authentication routes (login, register, password reset, etc.)
