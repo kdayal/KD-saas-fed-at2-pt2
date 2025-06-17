@@ -20,6 +20,10 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var list<string>
      */
+    public function jokeInteractions()
+    {
+        return $this->hasMany(JokeInteraction::class);
+    }
     protected $fillable = [
         'name',
         'email',

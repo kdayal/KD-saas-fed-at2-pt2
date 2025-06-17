@@ -67,10 +67,41 @@
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="text-sm font-medium text-gray-900">{{ Str::limit($joke->title, 40) }}</div>
-                                            <div class="text-xs text-gray-500">{{ Str::limit($joke->content, 60) }}</div>
+                                            <div class="text-xs text-gray-500">{{ Str::limit($joke->body, 60) }}</div> {{-- Changed from $joke->content to $joke->body --}}
+                                            {{-- Added Like/Dislike buttons here --}}
+                                            <div class="mt-2 flex items-center space-x-4">
+                                                {{-- Like Button --}}
+                                                <form action="{{ route('jokes.interact', $joke) }}" method="POST" class="inline">
+                                                    @csrf
+                                                    <input type="hidden" name="interaction_type" value="like">
+                                                    <button type="submit"
+                                                            class="flex items-center text-sm {{ $joke->isLikedByAuthUser() ? 'text-blue-600 font-semibold' : 'text-gray-500 hover:text-blue-600' }}">
+                                                        <i class="fa-solid fa-thumbs-up mr-1"></i>
+                                                        <span>{{ $joke->likesCount() }}</span>
+                                                    </button>
+                                                </form>
+
+                                                {{-- Dislike Button --}}
+                                                <form action="{{ route('jokes.interact', $joke) }}" method="POST" class="inline">
+                                                    @csrf
+                                                    <input type="hidden" name="interaction_type" value="dislike">
+                                                    <button type="submit"
+                                                            class="flex items-center text-sm {{ $joke->isDislikedByAuthUser() ? 'text-red-600 font-semibold' : 'text-gray-500 hover:text-red-600' }}">
+                                                        <i class="fa-solid fa-thumbs-down mr-1"></i>
+                                                        <span>{{ $joke->dislikesCount() }}</span>
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {{ $joke->category ?? 'N/A' }}
+                                            {{-- Displaying categories for the joke --}}
+                                            @forelse($joke->categories as $category)
+                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800 mr-1 mb-1">
+                                                    {{ $category->name }}
+                                                </span>
+                                            @empty
+                                                N/A
+                                            @endforelse
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             {{ $joke->user->name ?? 'Unknown' }}
@@ -80,8 +111,12 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
                                             <a href="{{ route('jokes.show', $joke) }}" class="text-indigo-600 hover:text-indigo-900" title="View"><i class="fa-solid fa-eye"></i></a>
+                                            @can('update', $joke) {{-- Added authorization check --}}
                                             <a href="{{ route('jokes.edit', $joke) }}" class="text-yellow-600 hover:text-yellow-900" title="Edit"><i class="fa-solid fa-edit"></i></a>
+                                            @endcan
+                                            @can('delete', $joke) {{-- Added authorization check --}}
                                             <a href="{{ route('jokes.delete', $joke) }}" class="text-red-600 hover:text-red-900" title="Delete"><i class="fa-solid fa-trash"></i></a>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @empty

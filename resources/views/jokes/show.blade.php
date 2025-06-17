@@ -46,15 +46,19 @@
                         <div class="mb-4">
                             <p class="text-gray-500 text-sm font-medium">Content:</p>
                             <p class="mt-1 text-gray-700 whitespace-pre-wrap">
-                                {{ $joke->content ?? "No Content Provided" }}
+                                {{ $joke->body ?? "No Content Provided" }} {{-- Changed from $joke->content to $joke->body --}}
                             </p>
                         </div>
 
                         <div class="mb-4">
-                            <p class="text-gray-500 text-sm font-medium">Category:</p>
-                            <p class="mt-1 text-gray-700">
-                                {{ $joke->category ?? "N/A" }}
-                            </p>
+                            <p class="text-gray-500 text-sm font-medium">Categories:</p> {{-- Changed from Category to Categories --}}
+                            <div class="mt-1 flex flex-wrap gap-2">
+                                @forelse ($joke->categories as $category)
+                                    <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-semibold rounded-full">{{ $category->name }}</span>
+                                @empty
+                                    <span class="text-gray-500 text-sm">N/A</span> {{-- Changed from "No categories assigned." --}}
+                                @endforelse
+                            </div>
                         </div>
 
                         <div class="mb-4">
@@ -78,6 +82,32 @@
                             </p>
                         </div>
 
+                        {{-- Added Like/Dislike section here --}}
+                        <div class="mt-6 border-t pt-4 flex items-center space-x-6">
+                            <span class="text-sm text-gray-600">Rate this joke:</span>
+                            {{-- Like Button --}}
+                            <form action="{{ route('jokes.interact', $joke) }}" method="POST" class="inline">
+                                @csrf
+                                <input type="hidden" name="interaction_type" value="like">
+                                <button type="submit"
+                                        class="flex items-center px-3 py-1 rounded-md border {{ $joke->isLikedByAuthUser() ? 'bg-blue-500 text-white border-blue-500' : 'bg-gray-100 text-gray-700 hover:bg-blue-100 border-gray-300' }}">
+                                    <i class="fa-solid fa-thumbs-up mr-2"></i>
+                                    <span>Like ({{ $joke->likesCount() }})</span>
+                                </button>
+                            </form>
+
+                            {{-- Dislike Button --}}
+                            <form action="{{ route('jokes.interact', $joke) }}" method="POST" class="inline">
+                                @csrf
+                                <input type="hidden" name="interaction_type" value="dislike">
+                                <button type="submit"
+                                        class="flex items-center px-3 py-1 rounded-md border {{ $joke->isDislikedByAuthUser() ? 'bg-red-500 text-white border-red-500' : 'bg-gray-100 text-gray-700 hover:bg-red-100 border-gray-300' }}">
+                                    <i class="fa-solid fa-thumbs-down mr-2"></i>
+                                    <span>Dislike ({{ $joke->dislikesCount() }})</span>
+                                </button>
+                            </form>
+                        </div>
+
                         <div class="flex mt-8 gap-4">
                             <a href="{{ route('jokes.index') }}"
                                class="px-4 py-2 bg-gray-200 text-gray-800 border border-gray-300 rounded-md
@@ -86,24 +116,23 @@
                                 {{ __('All Jokes') }}
                             </a>
 
-                            {{-- Add authorization checks here if needed --}}
-                            {{-- @can('update', $joke) --}}
+                            @can('update', $joke) {{-- Added authorization check --}}
                             <a href="{{ route('jokes.edit', $joke) }}"
                                class="px-4 py-2 bg-yellow-500 text-white border border-transparent rounded-md
                                         hover:bg-yellow-600 transition ease-in-out duration-150 text-sm font-medium">
                                 <i class="fa-solid fa-edit mr-1"></i>
                                 {{ __('Edit') }}
                             </a>
-                            {{-- @endcan --}}
+                            @endcan
 
-                            {{-- @can('delete', $joke) --}}
+                            @can('delete', $joke) {{-- Added authorization check --}}
                             <a href="{{ route('jokes.delete', $joke) }}" {{-- Link to delete confirmation page --}}
                                class="px-4 py-2 bg-red-600 text-white border border-transparent rounded-md
                                         hover:bg-red-700 transition ease-in-out duration-150 text-sm font-medium">
                                 <i class="fa-solid fa-trash mr-1"></i>
                                 {{ __('Delete') }}
                             </a>
-                            {{-- @endcan --}}
+                            @endcan
                         </div>
 
                     </section>
