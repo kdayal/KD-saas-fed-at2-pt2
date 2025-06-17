@@ -22,7 +22,8 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'roles' => ['nullable', 'array'],
+        'roles.*' => ['string', 'exists:roles,name'],
         ];
     }
 }

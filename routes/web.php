@@ -4,6 +4,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StaticPagesController;
+use App\Http\Controllers\Admin\RoleController; 
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+             // --- Roles & Permissions Admin Routes ---
+     Route::middleware(['roleOrPermission:Administrator|Roles & Permissions'])->prefix('admin')->name('admin.')->group(function () {
+        Route::resource('roles', RoleController::class);
+          });
+    
 
     // User BREAD/CRUD routes
     Route::resource('users', UserController::class);

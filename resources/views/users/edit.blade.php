@@ -67,9 +67,9 @@
                             </div>
 
                             <div class="flex flex-col">
-                                <x-input-label for="Password" :value="__('Password')"/>
+                                <x-input-label for="Password" :value="__('Password (leave blank to keep current)')"/>
                                 <x-text-input id="Password" class="block mt-1 w-full"
-                                              type="text"
+                                              type="password" {{-- Changed type to password --}}
                                               name="password"
                                               autofocus/>
                                 <x-input-error :messages="$errors->get('password')" class="mt-2"/>
@@ -78,29 +78,24 @@
                             <div class="flex flex-col">
                                 <x-input-label for="Password_Confirmation" :value="__('Confirm Password')"/>
                                 <x-text-input id="Password_Confirmation" class="block mt-1 w-full"
-                                              type="text"
+                                              type="password" {{-- Changed type to password --}}
                                               name="password_confirmation"
                                               autofocus/>
                                 <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2"/>
                             </div>
 
-
-                            <div class="flex flex-col">
-                                <x-input-label for="Role" :value="__('Role')"/>
-                                <select id="Role"
-                                        class="block mt-1 w-full px-2 py-1 border-gray-300
-                                            focus:outline-indigo-500 focus:outline-2 focus:ring-2 focus:ring-indigo-500
-                                              rounded-md shadow-sm"
-                                        type="text"
-                                        name="role"
-                                        :value="old('role')??$user->role"
-                                        required autofocus autocomplete="role">
-                                    <option>
-                                        Role will be implemented with Roles & Permissions
-                                    </option>
+                            {{-- Yahan par naya roles wala code daalein --}}
+                            <div class="flex flex-col mt-4">
+                                <x-input-label for="roles" :value="__('Assign Roles (Hold Ctrl/Cmd to select multiple)')"/>
+                                <select name="roles[]" id="roles" multiple class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm h-32">
+                                    @foreach ($roles as $role)
+                                        <option value="{{ $role->name }}"
+                                            {{ (is_array(old('roles')) && in_array($role->name, old('roles'))) || (empty(old('roles')) && in_array($role->name, $userRoles ?? [])) ? 'selected' : '' }}>
+                                            {{ $role->name }}
+                                        </option>
+                                    @endforeach
                                 </select>
-
-                                <x-input-error :messages="$errors->get('role')" class="mt-2"/>
+                                <x-input-error :messages="$errors->get('roles')" class="mt-2"/>
                             </div>
 
 
