@@ -64,20 +64,22 @@
                                 <x-input-error :messages="$errors->get('content')" class="mt-2"/>
                             </div>
 
-                            {{-- Joke Category Field (Optional) --}}
-                            <div class="flex flex-col">
-                                <x-input-label for="category" :value="__('Category')"/> {{-- Updated label --}}
-                                <x-text-input id="category" class="block mt-1 w-full"
-                                              type="text"
-                                              name="category"
-                                              :value="old('category', $joke->category)"/> {{-- Pre-fill with existing joke category --}}
-                                <x-input-error :messages="$errors->get('category')" class="mt-2"/>
-                            </div>
+                            {{-- Joke Category Field  --}}
+                            <div class="flex flex-col mt-4">
+                            <x-input-label for="categories" :value="__('Categories (Hold Ctrl/Cmd to select multiple)')"/>
+                            <select name="categories[]" id="categories" multiple class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm h-32">
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}"
+                                        {{ (is_array(old('categories')) && in_array($category->id, old('categories'))) || (empty(old('categories')) && in_array($category->id, $jokeCategoryIds ?? [])) ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <x-input-error :messages="$errors->get('categories')" class="mt-2"/>
+                            <x-input-error :messages="$errors->get('categories.*')" class="mt-2"/> 
+                        </div>
 
-                            {{-- Removed User-specific fields --}}
-
-
-                            <div class="flex flex-row gap-6">
+                          <div class="flex flex-row gap-6">
 
                                 {{-- Cancel Button --}}
                                 <a href="{{ route('jokes.index') }}" {{-- Updated cancel link --}}

@@ -23,8 +23,9 @@ class StoreJokeRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'max:255'],
-            'content' => ['required', 'string'],
-            'category' => ['nullable', 'string', 'max:100'],
+            'body' => ['required', 'string'], 
+            'categories'   => ['nullable', 'array'],
+            'categories.*' => ['integer', 'exists:categories,id'], 
 
         ];
     }

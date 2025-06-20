@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers; 
+namespace App\Http\Controllers;
 
 use App\Models\Joke;
 use App\Http\Requests\StoreJokeRequest;
@@ -9,22 +9,38 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\Models\Category; 
 
 class JokeController extends Controller
 {
-    
+    /**
+     * Display a listing of the jokes.
+     */
     public function index(Request $request): View
     {
-        $query = Joke::with('user')->latest();
+        $query = Joke::with(['user', 'categories'])->latest();
 
-        if ($request->filled('search')) {
-            $search = $request->input('search');
-            $query->where(fn($q) => $q->where('title', 'LIKE', "%{$search}%")
-                                      ->orWhere('content', 'LIKE', "%{$search}%")
-                                      ->orWhere('category', 'LIKE', "%{$search}%"));
+        if ($request->filled('search_term')) { 
+            $searchTerm = $request->input('search_term');
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('title', 'LIKE', "%{$searchTerm}%")
+                  ->orWhere('body', 'LIKE', "%{$searchTerm}%"); 
+            });
         }
+
+        if ($request->filled('category_search')) { 
+            $categorySearchId = $request->input('category_search');
+            if (!empty($categorySearchId)) {
+                $query->whereHas('categories', function ($q) use ($categorySearchId) {
+                    $q->where('categories.id', $categorySearchId);
+                });
+            }
+        }
+
         $jokes = $query->paginate(10);
-        return view('jokes.index', compact('jokes'));
+        $categories = Category::orderBy('name')->get(); 
+
+        return view('jokes.index', compact('jokes', 'categories'));
     }
 
     /**
@@ -32,7 +48,8 @@ class JokeController extends Controller
      */
     public function create(): View
     {
-        return view('jokes.create');
+        $categories = Category::orderBy('name')->get(); 
+        return view('jokes.create', compact('categories'));
     }
 
     /**
@@ -42,7 +59,15 @@ class JokeController extends Controller
     {
         $validatedData = $request->validated();
         $validatedData['user_id'] = Auth::id();
-        Joke::create($validatedData);
+
+        
+        $joke = Joke::create($validatedData);
+
+       
+        if ($request->has('categories')) {
+            $joke->categories()->attach($request->input('categories'));
+        }
+
         return redirect(route('jokes.index'))->with('success', 'Joke created successfully.');
     }
 
@@ -60,7 +85,9 @@ class JokeController extends Controller
     public function edit(Joke $joke): View
     {
         $this->authorize('update', $joke);
-        return view('jokes.edit', compact('joke'));
+        $categories = Category::orderBy('name')->get(); // Sabhi categories
+        $jokeCategoryIds = $joke->categories->pluck('id')->toArray(); // Joke ki current categories
+        return view('jokes.edit', compact('joke', 'categories', 'jokeCategoryIds'));
     }
 
     /**
@@ -70,6 +97,14 @@ class JokeController extends Controller
     {
         $this->authorize('update', $joke);
         $joke->update($request->validated());
+
+        // Categories ko sync karein
+        if ($request->has('categories')) {
+            $joke->categories()->sync($request->input('categories'));
+        } else {
+            $joke->categories()->detach(); 
+        }
+
         return redirect(route('jokes.index'))->with('success', 'Joke updated successfully.');
     }
 
@@ -108,7 +143,6 @@ class JokeController extends Controller
     public function recoverOne($id): RedirectResponse
     {
         $joke = Joke::onlyTrashed()->findOrFail($id);
-        // $this->authorize('restore', $joke); // Optional: Policy check
         $joke->restore();
         return redirect(route('jokes.trash'))->with('success', 'Joke restored successfully.');
     }
@@ -120,7 +154,6 @@ class JokeController extends Controller
     public function emptyOne($id): RedirectResponse
     {
         $joke = Joke::onlyTrashed()->findOrFail($id);
-        // $this->authorize('forceDelete', $joke); // Optional: Policy check
         $joke->forceDelete();
         return redirect(route('jokes.trash'))->with('success', 'Joke permanently deleted.');
     }
@@ -134,7 +167,9 @@ class JokeController extends Controller
         return redirect(route('jokes.trash'))->with('success', 'All jokes restored from trash.');
     }
 
-    
+    /**
+     * Permanently remove all soft-deleted jokes from storage.
+     */
     public function emptyAll(): RedirectResponse
     {
         Joke::onlyTrashed()->forceDelete();

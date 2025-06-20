@@ -19,7 +19,7 @@ class JokeFactory extends Factory
         return [
             'user_id' => User::factory(), 
             'title' => $this->faker->sentence(4),
-            'content' => $this->faker->paragraph(3),
+            'body' => $this->faker->paragraph(3),
             'category' => $this->faker->randomElement(['Pun', 'Observational', 'One-liner']),
         ];
         

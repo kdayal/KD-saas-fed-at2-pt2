@@ -10,6 +10,11 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     {{ __("You're logged in!") }}
+
+                    {{-- Added Category Count Display --}}
+                    <div class="mt-4">
+                        <p class="text-gray-700">Total Joke Categories in the system: <strong>{{ $categoryCount ?? 0 }}</strong></p>
+                    </div>
                 </div>
             </div>
         </div>

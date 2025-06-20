@@ -56,30 +56,33 @@
 
                             {{-- Joke Content Field --}}
                             <div class="flex flex-col">
-                                <x-input-label for="content" :value="__('Content')"/> {{-- Updated label --}}
-                                {{-- Using a textarea for longer content --}}
-                                <textarea id="content"
-                                          name="content"
+                                <x-input-label for="body" :value="__('Content')"/> {{-- Changed label 'for' and name to 'body' --}}
+                                <textarea id="body"
+                                          name="body" {{-- Changed name to 'body' --}}
                                           rows="6" {{-- Adjust rows as needed --}}
                                           class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
-                                          required>{{ old('content') }}</textarea> {{-- Textarea content goes inside tags --}}
-                                <x-input-error :messages="$errors->get('content')" class="mt-2"/>
+                                          required>{{ old('body') }}</textarea> {{-- Changed old('content') to old('body') --}}
+                                <x-input-error :messages="$errors->get('body')" class="mt-2"/> {{-- Changed error key to 'body' --}}
                             </div>
 
-                            {{-- Joke Category Field (Optional) --}}
-                            <div class="flex flex-col">
-                                <x-input-label for="category" :value="__('Category')"/> {{-- Updated label --}}
-                                <x-text-input id="category" class="block mt-1 w-full"
-                                              type="text"
-                                              name="category"
-                                              :value="old('category')"/> {{-- Category is nullable, not required --}}
-                                <x-input-error :messages="$errors->get('category')" class="mt-2"/>
+                            {{-- Categories Field --}}
+                            <div class="flex flex-col mt-4">
+                                <x-input-label for="categories" :value="__('Categories (Hold Ctrl/Cmd to select multiple)')"/>
+                                <select name="categories[]" id="categories" multiple class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm h-32">
+                                    @isset($categories) {{-- Ensure $categories variable exists --}}
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}" {{ (is_array(old('categories')) && in_array($category->id, old('categories'))) ? 'selected' : '' }}>
+                                                {{ $category->name }}
+                                            </option>
+                                        @endforeach
+                                    @endisset
+                                </select>
+                                <x-input-error :messages="$errors->get('categories')" class="mt-2"/>
+                                <x-input-error :messages="$errors->get('categories.*')" class="mt-2"/> {{-- Individual category ID errors ke liye --}}
                             </div>
 
-                            {{-- Removed User-specific fields (Email, Password, Confirm Password, Role) --}}
 
-
-                            <div class="flex flex-row gap-6">
+                            <div class="flex flex-row gap-6 mt-4"> {{-- Added mt-4 for spacing --}}
 
                                 {{-- Cancel Button --}}
                                 <a href="{{ route('jokes.index') }}" {{-- Updated cancel link --}}

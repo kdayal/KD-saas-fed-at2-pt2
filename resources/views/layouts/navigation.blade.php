@@ -36,26 +36,30 @@
                             {{ __('Users') }}
                         </x-nav-link>
 
-                        {{-- You would add a Jokes link here similarly if needed --}}
-                        {{-- <x-nav-link :href="route('jokes.index')" :active="request()->routeIs('jokes.*')"> --}}
-                        {{--     <i class="fa-solid fa-face-laugh-beam mr-1"></i> --}}
-                        {{--     {{ __('Jokes') }} --}}
-                        {{-- </x-nav-link> --}}
+                        {{-- Added Jokes Link --}}
+                        <x-nav-link :href="route('jokes.index')" :active="request()->routeIs('jokes.*')">
+                            <i class="fa-solid fa-face-laugh-beam mr-1"></i>
+                            {{ __('Jokes') }}
+                        </x-nav-link>
 
                         @hasrole('Administrator') {{-- Or @can('Roles & Permissions') --}}
                             <x-nav-link :href="route('admin.roles.index')" :active="request()->routeIs('admin.roles.*')">
                                 <i class="fa-solid fa-shield-halved mr-1"></i>
                                 {{ __('Manage Roles') }}
+                             </x-nav-link>
+
+                            {{-- Added Manage Categories Link (Admin Only) --}}
+                            <x-nav-link :href="route('admin.categories.index')" :active="request()->routeIs('admin.categories.*')">
+                                <i class="fa-solid fa-tags mr-1"></i> {{-- Using tags icon for categories --}}
+                                {{ __('Manage Categories') }}
                             </x-nav-link>
                         @endhasrole
 
-                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('other.*')">
-                            <i class="fa-solid fa-link mr-1"></i>
-                            {{ __('Other Links') }} ({{ __('Authenticated') }})
-                        </x-nav-link>
+                        {{-- Removed redundant 'Other Links' for authenticated users --}}
 
                     @else
-                        <x-nav-link :href="route('home')" :active="request()->routeIs('other.*')">
+                        {{-- 'Other Links' for unauthenticated users --}}
+                        <x-nav-link :href="route('home')" :active="request()->routeIs('other.*')"> {{-- You might want to change this route if 'other.*' is not home --}}
                             <i class="fa-solid fa-link mr-1"></i>
                             {{ __('Other Links') }} ({{ __('Unauthenticated') }})
                         </x-nav-link>
@@ -161,27 +165,30 @@
                     {{ __('Users') }}
                 </x-responsive-nav-link>
 
-                {{-- You would add a Jokes responsive link here similarly if needed --}}
-                {{-- <x-responsive-nav-link :href="route('jokes.index')" :active="request()->routeIs('jokes.*')"> --}}
-                {{--     <i class="fa-solid fa-face-laugh-beam mr-1"></i> --}}
-                {{--     {{ __('Jokes') }} --}}
-                {{-- </x-responsive-nav-link> --}}
+                {{-- Added Jokes Responsive Link --}}
+                <x-responsive-nav-link :href="route('jokes.index')" :active="request()->routeIs('jokes.*')">
+                    <i class="fa-solid fa-face-laugh-beam mr-1"></i>
+                    {{ __('Jokes') }}
+                </x-responsive-nav-link>
 
                 @hasrole('Administrator') {{-- Or @can('Roles & Permissions') --}}
                     <x-responsive-nav-link :href="route('admin.roles.index')" :active="request()->routeIs('admin.roles.*')">
                         <i class="fa-solid fa-shield-halved mr-1"></i>
                         {{ __('Manage Roles') }}
                     </x-responsive-nav-link>
+
+                    {{-- Added Manage Categories Responsive Link (Admin Only) --}}
+                    <x-responsive-nav-link :href="route('admin.categories.index')" :active="request()->routeIs('admin.categories.*')">
+                        <i class="fa-solid fa-tags mr-1"></i> {{-- Using tags icon for categories --}}
+                        {{ __('Manage Categories') }}
+                    </x-responsive-nav-link>
                 @endhasrole
 
-                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('other.*')">
-                    <i class="fa-solid fa-link mr-1"></i>
-                    {{ __('Other Links') }} ({{ __('Authenticated') }})
-                </x-responsive-nav-link>
+                {{-- Removed redundant 'Other Links' for authenticated users --}}
 
             @else
 
-                <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('other.*')">
+                <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('other.*')"> {{-- You might want to change this route if 'other.*' is not home --}}
                     <i class="fa-solid fa-link mr-1"></i>
                     {{ __('Other Links') }} ({{ __('Unauthenticated') }})
                 </x-responsive-nav-link>
@@ -199,10 +206,7 @@
                 @endif
             @endauth
 
-            <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('other.*')">
-                <i class="fa-solid fa-link mr-1"></i>
-                {{ __('Other Links') }} ({{ __('General') }})
-            </x-responsive-nav-link>
+            {{-- Removed redundant 'Other Links' for general users --}}
         </div>
 
         <!-- Responsive Settings Options -->

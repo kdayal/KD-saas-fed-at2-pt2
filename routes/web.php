@@ -5,7 +5,11 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StaticPagesController;
 use App\Http\Controllers\Admin\RoleController;
-use App\Http\Controllers\JokeInteractionController;  
+use App\Http\Controllers\JokeInteractionController;
+use App\Http\Controllers\Admin\CategoryController;
+
+use App\Models\Category; 
+
 
 /*
 |--------------------------------------------------------------------------
@@ -25,24 +29,35 @@ Route::get('/pricing', [StaticPagesController::class, 'pricing'])->name('pricing
 
 // Dashboard route, requires authentication and email verification
 Route::get('/dashboard', function () {
-    return view('static.dashboard');
+        $categoryCount = Category::count(); 
+    return view('static.dashboard' ,  compact('categoryCount'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Authenticated user routes
-Route::middleware('auth')->group(function () {
+    Route::middleware('auth')->group(function () {
+
+         // Joke Trash Routes
+    Route::prefix('jokes/trash')->name('jokes.')->group(function () {
+        Route::get('/', [JokeController::class, 'trash'])->name('trash');
+    });
     // Profile management routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-        Route::post('/jokes/{joke}/interact', [JokeInteractionController::class, 'store'])->name('jokes.interact');
 
-             // --- Roles & Permissions Admin Routes ---
-     Route::middleware(['roleOrPermission:Administrator|Roles & Permissions'])->prefix('admin')->name('admin.')->group(function () {
+    // Joke Interaction Route
+    Route::post('/jokes/{joke}/interact', [JokeInteractionController::class, 'store'])->name('jokes.interact');
+
+    // --- Roles & Permissions Admin Routes ---
+    // These routes are only for users with 'Administrator' role or 'Roles & Permissions' permission
+    Route::middleware(['roleOrPermission:Administrator,Roles & Permissions'])->prefix('admin')->name('admin.')->group(function () {
         Route::resource('roles', RoleController::class);
-          });
-    
+        Route::resource('categories', CategoryController::class)->except(['show']);
+        
+    }); // <-- THIS GROUP SHOULD CLOSE HERE
 
     // User BREAD/CRUD routes
+    // Protection for these routes will be handled in UserController or policies
     Route::resource('users', UserController::class);
     Route::get('users/{user}/delete', [UserController::class, 'delete'])->name('users.delete');
 
@@ -54,6 +69,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('users/trash/recover-all', [UserController::class, 'recoverAll'])->name('users.recover-all');
 
     // Joke BREAD/CRUD routes
+    // Protection for these routes will be handled in JokeController or policies
     Route::resource('jokes', JokeController::class);
     Route::get('jokes/{joke}/delete', [JokeController::class, 'delete'])->name('jokes.delete'); // For delete confirmation page
 
@@ -65,11 +81,10 @@ Route::middleware('auth')->group(function () {
         Route::patch('/recover-all', [JokeController::class, 'recoverAll'])->name('recover-all');
         Route::delete('/empty', [JokeController::class, 'emptyAll'])->name('empty-all');
     });
-    Route::middleware(['roleOrPermission:Administrator|Roles & Permissions'])->prefix('admin')->name('admin.')->group(function () {
-    // ...
-});
 
-});
+    
+
+}); // Main 'auth' group closes here
 
 // Include authentication routes (login, register, password reset, etc.)
 require __DIR__.'/auth.php';

@@ -1,20 +1,7 @@
-# APPLICATION NAME
+# Joke Management Application
 <a name="readme-top"></a>
 
-(START)
-
-TO DO: Make sure the Repository is PRIVATE
-
-TO DO: Add Your lecturer as a contributor to the project repository, so
-they are able to see your code, the commit history and other details 
-within the repository.
-
-TO DO: Add a single sentence overview/summary of this project.
-
-Once complete, remove from `(START)` to `(END)`
-
-(END)
-
+This application is a web-based platform for managing and interacting with jokes, built using the Laravel framework. It features user authentication, role-based access control, joke creation and categorization, and a like/dislike system.
 
 #### Built With
 
@@ -22,12 +9,10 @@ Once complete, remove from `(START)` to `(END)`
 [![Laravel][Laravel.com]][Laravel-url]
 [![Tailwindcss][Tailwindcss.com]][Tailwindcss-url]
 [![Livewire][Livewire.com]][Livewire-url]
-[![Inertia][Inertia.com]][Inertia-url]
-
-TO DO: Add the IDE, Development stack/Platform, and other items used in 
-developing your solution. You will need to add the link definitions at the 
-end of the file for links similar to the above to work.
-Eg: `[![Laragon][Laragon.org][Laragon-url]`
+[![Spatie Laravel Permission][Spatie-Permission-shield]][Spatie-Permission-url]
+[![Font Awesome][FontAwesome-shield]][FontAwesome-url]
+[![Laragon][Laragon-shield]][Laragon-url]
+[![Visual Studio Code][VSCode-shield]][VSCode-url]
 
 ## Definitions
 
@@ -35,230 +20,253 @@ Eg: `[![Laragon][Laragon.org][Laragon-url]`
 |----|-------------------------------------------------------------------------------------------------------------|
 | BREAD | Database operations to Browse, Read, Edit, Add and Delete data                                               |
 | CRUD | More commonly used term over BREAD. Create (Add), Retrieve (Browse/Read), Update (Edit) and Delete (Delete) |
-
-TO DO: Add any extra definitions used in the document. For example, they 
-could include `MVC`, `HTTP VERB` and more.
+| MVC | Model-View-Controller: A software architectural pattern for implementing user interfaces. Models manage data, Views display data, and Controllers handle user input and interactions. |
+| HTTP VERB | Methods indicating the desired action to be performed for a given resource (e.g., GET, POST, PUT, PATCH, DELETE). |
+| API | Application Programming Interface: A set of rules and protocols for building and interacting with software applications. |
+| Middleware | Software that acts as a bridge between an operating system or database and applications, especially on a network. In Laravel, it provides a convenient mechanism for filtering HTTP requests entering your application. |
+| ORM | Object-Relational Mapping: A programming technique for converting data between incompatible type systems using object-oriented programming languages. Laravel uses Eloquent as its ORM. |
+| PSR | PHP Standard Recommendation: A PHP specification published by the PHP Framework Interop Group. PSR-1, PSR-12, PSR-4 are coding style and autoloading standards. |
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 ## Description
 
-TO DO: Provide a short description explaining the what, why, and how of your 
-project. 
+This project, the "Joke Management Application," was developed as a portfolio piece to demonstrate proficiency in building a full-stack web application using Laravel. The primary motivation was to create a functional platform incorporating common web application features such as user authentication, role-based authorization, CRUD operations for multiple resources (jokes, users, categories), and interactive elements like a like/dislike system.
 
-Use the following questions as a guide:
+The application solves the need for a centralized place to share, categorize, and rate jokes. It allows different types of users (Administrators, Staff, Clients/Ordinary Users) to interact with the system based on their assigned roles and permissions.
 
-- What was your motivation?
-- Why did you build this project? (Note: the answer is not "Because it was a
-  homework assignment.")
-- What problem does it solve?
-- What did you learn?
+Through this project, I learned to:
+*   Implement a robust authentication and authorization system using Laravel Breeze and Spatie Laravel Permission.
+*   Design and manage database schemas using Laravel Migrations.
+*   Develop CRUD functionalities for multiple resources.
+*   Implement many-to-many relationships (e.g., jokes and categories).
+*   Build interactive features like a like/dislike system.
+*   Structure a Laravel application following MVC principles.
+*   Utilize Blade templating and Tailwind CSS for the frontend.
+*   Manage application state and user input with controllers and Form Requests.
+*   Seed a database with initial data for development and testing.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 ## Table of Contents
 
-TO DO: Add extra, or update the contents as needed, then remove this line.
-
 - [Description](#description)
 - [Definitions](#definitions)
+- [Built With](#built-with)
 - [Installation](#installation)
+- [Configuration](#configuration)
+- [Database Setup](#database-setup)
+- [Running the Application](#running-the-application)
 - [Usage](#usage)
+- [Features](#features)
+- [Testing](#testing)
+- [Deployment Notes](#deployment-notes)
+- [Code Style and Commenting](#code-style-and-commenting)
 - [Credits](#credits)
 - [Licence](#licence)
-- [Badges](#badges)
-- [Features](#features)
-- [Tests](#tests)
-- [Contact](#contact)
-
-## Installation
-
-What are the steps required to install your project? Provide a step-by-step
-description of how to get the development environment running.
-
-Note this may be on a free hosting system using any suitable method you 
-wish. It also may be on a local machine where the project is cloned to the 
-local and then set up and run.
-
+- 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Installation
 
-## Usage
+To get this project up and running on your local machine, follow these steps:
 
-TO DO: Provide instructions and examples for use. Include screenshots as 
-needed.
+1.  **Clone the repository:**
+    ```bash
+    git clone <https://github.com/kdayal/KD-saas-fed-at2-pt2.git>
+    cd <KD-saas-fed-at2-pt2>
+    ```
 
-To add a screenshot, create an `assets/images` folder in your repository and
-upload your screenshot to it. Then, using the relative filepath, add it to
-your README using the following syntax:
+2.  **Install PHP Dependencies:**
+    Ensure you have Composer installed.
+    ```bash
+    composer install
+    ```
 
-    ```md
-    ![alt text](assets/images/screenshot.png)
+3.  **Install Node.js Dependencies:**
+    Ensure you have Node.js and npm installed.
+    ```bash
+    npm install
+    ```
+
+4.  **Build Frontend Assets:**
+    ```bash
+    npm run build
     ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Configuration
 
-## Credits
+1.  **Copy the Environment File:**
+    ```bash
+    cp .env.example .env
+    ```
 
-TO DO: List your collaborators, if any, with links to their GitHub 
-profiles. This should include the TAFE and your lecturers' GitHub profiles. 
+2.  **Generate Application Key:**
+    ```bash
+    php artisan key:generate
+    ```
 
-If you used any third-party assets that require attribution, list the creators
-with links to their primary web presence in this section. For example 
-FontAwesome, TailwindCSS etc.
+3.  **Edit the `.env` file:**
+    Open the newly created `.env` file in your code editor. You will need to configure your database connection and other settings. Refer to your `Secrets.md` file (which should NOT be committed to Git) for sensitive details.
 
-If you follow any tutorials, include links to those here as well. This would 
-include the Traversy Media course(s), YouTube videos, written tutorials 
-and books. 
+    **Example `.env` settings:**
+    ```dotenv
+    APP_NAME="Joke App"
+    APP_ENV=local
+    APP_KEY=base64:... # This is generated by php artisan key:generate
+    APP_DEBUG=true
+    APP_URL=http://localhost # Or your local development URL (e.g., http://kd-saas-fed-at2-pt2.test)
 
-- Font Awesome. (n.d.). Fontawesome.com. https://fontawesome.com
-- Laravel - The PHP Framework For Web Artisans. (2011). Laravel.com. https://laravel.com
-- PHP: Hypertext Preprocessor. (n.d.). Www.php.net. https://php.net
-- Professional README Guide. (n.d.). Coding-Boot-Camp.github.io. Retrieved April 15, 2024, from https://coding-boot-camp.github.io/full-stack/github/professional-readme-guide
-- TailwindCSS. (2023). Tailwind CSS - Rapidly build modern websites 
-  without ever leaving your HTML. Tailwindcss.com. https://tailwindcss.com/
+    # Database Configuration (Example for MySQL)
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=your_database_name # As per your Secrets.md
+    DB_USERNAME=your_database_user # As per your Secrets.md
+    DB_PASSWORD=your_database_password # As per your Secrets.md
 
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-## Badges
-
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
-***
-*** Forks, Issues and Licence Shields will NOT appear for Private Repos.
-*** You may want to remove this section for this assessment.
-*** Delete this block of comments once you have edited this ReadMe.
-***
-***
--->
-
-[![Forks][forks-shield]][forks-url]
-[![Issues][issues-shield]][issues-url]
-[![Educational Community Licence][licence-shield]][licence-url]
-
+    # Mail Configuration (Important for Email Verification)
+    MAIL_MAILER=log # Use 'log' for local testing to avoid sending real emails
+    MAIL_HOST=mailpit # Or your mail server host
+    MAIL_PORT=1025 # Or your mail server port
+    MAIL_USERNAME=null
+    MAIL_PASSWORD=null
+    MAIL_ENCRYPTION=null
+    MAIL_FROM_ADDRESS="hello@example.com"
+    MAIL_FROM_NAME="${APP_NAME}"
+    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Features
+## Database Setup
 
-APPLICATION NAME features include but are not limited to:
+1.  **Create the Database:**
+    Using your database management tool (like phpMyAdmin, MySQL Workbench, or the command line), create a new database with the name specified in your `.env` file (`DB_DATABASE`). Also, ensure the database user specified in `.env` (`DB_USERNAME`) has full privileges on this database.
 
-#### Jokes 
+2.  **Run Migrations and Seed the Database:**
+    This command will run all database migrations to create the necessary tables and then run the seeders to populate them with initial data (users, roles, permissions, categories, jokes).
 
-The Jokes Feature has the usual CRUD/BREAD operations including:
-
-* Browse Jokes [Guest, User, Admin]
-* Retrieve Joke [Guest, User, Admin]
-    * includes search 
-* Edit Joke [Admin, Owner]
-* Update Joke [Admin, Owner]
-* Delete Joke [Admin, Owner]
-
-#### Users
-
-The Users feature includes the standard CRUD/BREAD:
-
-* User self-registration [Guest]
-* Login [Registered User]
-* Logout [Registered User]
-* Profile Edit [Admin, Owner]
-* Account Administration [Admin, Owner]
-
-#### Administration
-
-* Work BREAD [Admin]
-* User BREAD [Admin]
-* Permissions Administration [Admin]
+    ```bash
+    php artisan migrate:fresh --seed
+    ```
+    *   `migrate:fresh` drops all tables and re-runs migrations. Use `migrate --seed` if you want to run only new migrations and seed. `migrate:fresh --seed` is recommended for a clean setup from source.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Tests
+## Running the Application
 
-Go the extra mile and write tests for your application. Then provide examples on how to run them here.
+1.  **Start the Local Development Server:**
+    ```bash
+    php artisan serve
+    ```
+    This will typically start the server at `http://127.0.0.1:8000`. If you are using a local development environment like Laragon, you might access it via a custom domain (e.g., `http://kd-saas-fed-at2-pt2.test`).
 
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-## Contact
-
-Your Name - email@email_client.com
-
-Project Link: https://github.com/github_username/repo_name
+2.  **Access the Application:**
+    Open your web browser and go to the URL where your application is running.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Usage
+
+Once the application is running, you can interact with it as follows:
+
+1.  **Registration:** New users can register for an account.
+2.  **Login:** Registered users can log in. Default seeded users include:
+    *   Administrator: `admin@example.com` (Password: `Password1`)
+    *   Staff: `staff@example.com` (Password: `Password1`)
+    *   Client: `client@example.com` (Password: `Password1`)
+3.  **Dashboard:** After login, users are redirected to their dashboard.
+4.  **Jokes:**
+    *   View a list of jokes.
+    *   View individual joke details.
+    *   Add new jokes (if authorized).
+    *   Edit/Delete own jokes (if authorized).
+    *   Like/Dislike jokes.
+    *   Search jokes by keyword or category.
+    *   Manage trashed jokes.
+5.  **User Management (Admin/Staff):**
+    *   View, add, edit, delete users.
+    *   Manage user roles.
+    *   Manage trashed users.
+6.  **Category Management (Admin/Staff):**
+    *   View, add, edit, delete categories.
+7.  **Role Management (Admin):**
+    *   View, add, edit, delete roles and assign permissions to them.
+
+**Example Screenshot:**
+![alt text](<Screenshot 2025-06-20 094749.png>)
+![alt text](<Screenshot 2025-06-20 094804.png>)
+![alt text](<Screenshot 2025-06-20 094819.png>)
+
+```md
+![Admin Categories Page](assets/images/admin-categories-list.png)
+
+Credits
+Lecturer: Adrian Gould, North Metropolitan TAFE (GitHub Profile)
+TAFE: North Metropolitan TAFE (Website)
+Starter Kit: Laravel Retro Blade Starter Kit by Adrian Gould (Repo)
+Font Awesome: Icons used throughout the application. (Website)
+Laravel: The PHP Framework For Web Artisans. (Website)
+PHP: Hypertext Preprocessor. (Website)
+Tailwind CSS: A utility-first CSS framework. (Website)
+Spatie Laravel Permission: Package for managing roles and permissions. (Website)
+Professional README Guide: Template inspiration.
+
+Features
+The Joke Management Application includes the following features:
+
+Jokes
+Browse Jokes: All users (Guest, Registered User, Staff, Administrator) can view a list of jokes.
+Retrieve/Show Joke: All users can view the details of a single joke.
+Includes search by keyword and category.
+Add Joke: Registered users (Client, Staff, Administrator) can add new jokes.
+Edit Joke:
+Users can edit their own jokes.
+Staff and Administrators can edit any joke.
+Delete Joke (Soft Delete):
+Users can delete (move to trash) their own jokes.
+Staff and Administrators can delete any joke.
+Trash Management:
+Users can view their own trashed jokes.
+Users can recover their own jokes from trash.
+Users can permanently delete their own jokes from trash.
+Administrators can manage all trashed jokes.
+Categorization: Jokes can be assigned multiple categories.
+Likes/Dislikes: Registered users can like or dislike jokes, change their interaction, or remove it.
+Users
+User Self-Registration: Guests can register for a new account.
+Login/Logout: Registered users can log in and log out.
+Email Verification: New users need to verify their email address.
+Profile Edit: Users can edit their own profile information.
+User Management (Admin/Staff):
+Browse Users: Administrators and Staff can view a list of users.
+Add User: Administrators and Staff can add new users.
+Edit User:
+Administrators can edit any user.
+Staff can edit Client users and their own profile.
+Delete User (Soft Delete):
+Administrators can delete any user (except themselves).
+Staff can delete Client users.
+Trash Management (Admin): Administrators can view, restore, and permanently delete users from trash.
+Administration (Administrator/Staff Roles)
+Role Management (Admin):
+Create, Read, Edit, Delete roles.
+Assign permissions to roles.
+Category Management (Admin/Staff):
+Create, Read, Edit, Delete categories.
+User Role Assignment (Admin): Administrators can assign and remove roles from users.
+Dashboard: Displays a count of total joke categories in the system.
+Testing
+Manual testing was performed throughout the development lifecycle to ensure all features function as expected across different user roles. This included:
+
+Verifying CRUD operations for Users, Jokes, Roles, and Categories.
+Testing role-based authorization for all actions.
+Ensuring soft delete and trash management functionalities work correctly.
+Validating the like/dislike system and category assignment.
+Checking search and filtering functionalities.
+Confirming data integrity and user experience flows.
 
 
-## Licence
-
-TO DO: Summarise/define the Licence here. Link to the Licence file.
-
-The last section of a high-quality README file is the licence. This lets other
-developers know what they can and cannot do with your project. If you need
-help choosing a licence, refer
-to [https://choosealicense.com/](https://choosealicense.com/).
-
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
----
-
-
-
-TO DO: Update the links in the MarkDown Links and Images section of the 
-original MarkDown document as needed. The links are not visible in the 
-rendered page on GitHub. 
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-
-[forks-shield]: http://img.shields.io/github/forks/adygcode/workopia-laravel-v11.svg?style=for-the-badge
-
-[forks-url]: https://github.com/AdyGCode/workopia-laravel-v11/network/members
-
-[issues-shield]: http://img.shields.io/github/issues/adygcode/workopia-laravel-v11.svg?style=for-the-badge
-
-[issues-url]: https://github.com/adygcode/workopia-laravel-v11/issues
-
-[licence-shield]: https://img.shields.io/github/license/adygcode/workopia-laravel-v11.svg?style=for-the-badge
-
-[licence-url]: https://github.com/adygcode/workopia-laravel-v11/blob/main/License.md
-
-[product-screenshot]: images/screenshot.png
-
-[Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
-
-[Laravel-url]: https://laravel.com
-
-[Tailwindcss.com]: https://img.shields.io/badge/Tailwindcss-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white
-
-[Tailwindcss-url]: https://tailwindcss.com
-
-[Livewire.com]: https://img.shields.io/badge/Livewire-4E56A6?style=for-the-badge&logo=livewire&logoColor=white
-
-[Livewire-url]: https://livewire.laravel.com
-
-[Inertia.com]: https://img.shields.io/badge/Inertia-9553E9?style=for-the-badge&logo=inertia&logoColor=white
-
-[Inertia-url]: https://inertiajs.com
-
-[Php.com]: https://img.shields.io/badge/Php-777BB4?style=for-the-badge&logo=php&logoColor=white
-
-[Php-url]: https://inertiajs.com

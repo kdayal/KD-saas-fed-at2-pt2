@@ -125,15 +125,20 @@
                             </a>
                             @endcan
 
-                            @can('delete', $joke) {{-- Added authorization check --}}
-                            <a href="{{ route('jokes.delete', $joke) }}" {{-- Link to delete confirmation page --}}
-                               class="px-4 py-2 bg-red-600 text-white border border-transparent rounded-md
-                                        hover:bg-red-700 transition ease-in-out duration-150 text-sm font-medium">
-                                <i class="fa-solid fa-trash mr-1"></i>
-                                {{ __('Delete') }}
-                            </a>
-                            @endcan
-                        </div>
+                            @can('delete', $joke)
+        {{-- Add Delete button here --}}
+        <form method="POST" action="{{ route('jokes.destroy', $joke) }}" class="inline" onsubmit="return confirm('Are you sure you want to move this joke to trash?');">
+            @csrf
+            @method('DELETE')
+            <button type="submit"
+                    class="px-4 py-2 bg-red-600 text-white border border-transparent rounded-md hover:bg-red-700 transition ease-in-out duration-150 text-sm font-medium">
+                <i class="fa-solid fa-trash mr-1"></i>
+                {{ __('Delete') }}
+            </button>
+        </form>
+    @endcan
+</div>
+
 
                     </section>
                 </article>

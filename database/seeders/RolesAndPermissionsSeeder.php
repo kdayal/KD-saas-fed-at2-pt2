@@ -48,18 +48,18 @@ class RolesAndPermissionsSeeder extends Seeder
         $staffRole = Role::create(['name' => 'Staff']);
         $staffRole->givePermissionTo([
             'User-Browse', 'User-Show', 'User-Edit',
-            'Joke-Browse', 'Joke-Show', 'Joke-Edit', 'Joke-Delete',  // Adjust as needed for "any client" & their own
+            'Joke-Browse', 'Joke-Show', 'Joke-Edit', 'Joke-Delete',  
             'Joke-Trash-Recover (one)', 'Joke -Trash-Remove (one)'
         ]);
 
         $clientRole = Role::create(['name' => 'Client']);
         $clientRole->givePermissionTo([
-            'User-Show', 'User-Edit', 'User-Delete', // For their own profile
+            'User-Show', 'User-Edit', 'User-Delete', 
             'Joke-Browse', 'Joke-Show', 'Joke-Edit', 'Joke-Add', 'Joke-Delete',
-            'Joke-Trash-Recover (one)', 'Joke -Trash-Remove (one)', // Own jokes
+            'Joke-Trash-Recover (one)', 'Joke -Trash-Remove (one)', 
         ]);
 
-        // Optionally, assign roles to initial users (e.g., Admin user)
+        
         // Assuming you have a User with ID 1
         $adminUser = User::find(1); 
         if ($adminUser) {

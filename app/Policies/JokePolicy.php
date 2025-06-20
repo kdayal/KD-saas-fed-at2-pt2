@@ -45,8 +45,13 @@ class JokePolicy
      */
     public function delete(User $user, Joke $joke): bool
     {
-        return false;
+      if ($user->hasRole(['Administrator', 'Staff'])) {
+        return true;
     }
+    return $user->id === $joke->user_id;
+}
+
+    
 
     /**
      * Determine whether the user can restore the model.

@@ -18,13 +18,22 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            {{-- Search Form (Optional) --}}
+            {{-- Search Form --}}
             <div class="mb-4">
+                {{-- Aapka search form yahan pehle se hai, use waise hi rehne dein --}}
                 <form method="GET" action="{{ route('jokes.index') }}">
                     <div class="flex">
-                        <input type="text" name="search" placeholder="Search jokes..."
-                               value="{{ request('search') }}"
-                               class="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                        <input type="text" name="search_term" placeholder="Search jokes by keyword..."
+                               value="{{ request('search_term') }}"
+                               class="w-full md:w-1/2 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm text-sm">
+                        <select name="category_search" class="ml-2 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm text-sm">
+                            <option value="">All Categories</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}" {{ request('category_search') == $category->id ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
                         <button type="submit"
                                 class="ml-2 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
                             {{ __('Search') }}
@@ -57,18 +66,18 @@
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Created
                                     </th>
-                                    <th scope="col" class="relative px-6 py-3">
-                                        <span class="sr-only">Actions</span>
+                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"> {{-- Actions header ko text-right kiya --}}
+                                        Actions
                                     </th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @forelse ($jokes as $joke)
                                     <tr>
+                                        {{-- Column 1: Title, Body, Like/Dislike --}}
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="text-sm font-medium text-gray-900">{{ Str::limit($joke->title, 40) }}</div>
-                                            <div class="text-xs text-gray-500">{{ Str::limit($joke->body, 60) }}</div> {{-- Changed from $joke->content to $joke->body --}}
-                                            {{-- Added Like/Dislike buttons here --}}
+                                            <div class="text-xs text-gray-500">{{ Str::limit($joke->body, 60) }}</div>
                                             <div class="mt-2 flex items-center space-x-4">
                                                 {{-- Like Button --}}
                                                 <form action="{{ route('jokes.interact', $joke) }}" method="POST" class="inline">
@@ -80,7 +89,6 @@
                                                         <span>{{ $joke->likesCount() }}</span>
                                                     </button>
                                                 </form>
-
                                                 {{-- Dislike Button --}}
                                                 <form action="{{ route('jokes.interact', $joke) }}" method="POST" class="inline">
                                                     @csrf
@@ -93,8 +101,8 @@
                                                 </form>
                                             </div>
                                         </td>
+                                        {{-- Column 2: Category --}}
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {{-- Displaying categories for the joke --}}
                                             @forelse($joke->categories as $category)
                                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800 mr-1 mb-1">
                                                     {{ $category->name }}
@@ -103,19 +111,26 @@
                                                 N/A
                                             @endforelse
                                         </td>
+                                        {{-- Column 3: Author --}}
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             {{ $joke->user->name ?? 'Unknown' }}
                                         </td>
+                                        {{-- Column 4: Created Date --}}
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             {{ $joke->created_at->format('M d, Y') }}
                                         </td>
+                                        {{-- Column 5: Actions --}}
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
                                             <a href="{{ route('jokes.show', $joke) }}" class="text-indigo-600 hover:text-indigo-900" title="View"><i class="fa-solid fa-eye"></i></a>
-                                            @can('update', $joke) {{-- Added authorization check --}}
-                                            <a href="{{ route('jokes.edit', $joke) }}" class="text-yellow-600 hover:text-yellow-900" title="Edit"><i class="fa-solid fa-edit"></i></a>
+                                            @can('update', $joke)
+                                                <a href="{{ route('jokes.edit', $joke) }}" class="text-yellow-600 hover:text-yellow-900" title="Edit"><i class="fa-solid fa-edit"></i></a>
                                             @endcan
-                                            @can('delete', $joke) {{-- Added authorization check --}}
-                                            <a href="{{ route('jokes.delete', $joke) }}" class="text-red-600 hover:text-red-900" title="Delete"><i class="fa-solid fa-trash"></i></a>
+                                            @can('delete', $joke)
+                                                <form action="{{ route('jokes.destroy', $joke) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to move this joke to trash?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="text-red-600 hover:text-red-900" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                                                </form>
                                             @endcan
                                         </td>
                                     </tr>

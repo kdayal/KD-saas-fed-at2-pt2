@@ -33,82 +33,79 @@
                         </h5>
                     </header>
 
-                    <section class="px-4 flex flex-col text-gray-800">
+                    <section class="px-6 py-6 text-gray-800"> {{-- Added padding to section --}}
 
-                        <div class="grid grid-rows-3 my-6 ">
-                            <p class="text-gray-500 text-sm ">Name:</p>
-                            <p class="w-full ml-4">
-                                {{ $user->name ?? "No Name provided" }}
-                            </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 mb-6"> {{-- Improved layout for details --}}
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">Name:</p>
+                                <p class="mt-1 text-gray-900">
+                                    {{ $user->name ?? "No Name provided" }}
+                                </p>
+                            </div>
+
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">Email:</p>
+                                <p class="mt-1 text-gray-900">
+                                    {{ $user->email ?? "No Email Provided" }}
+                                </p>
+                            </div>
+
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">Role(s):</p> {{-- Changed from Role to Role(s) --}}
+                                <div class="mt-1 text-gray-900">
+                                    @forelse ($user->getRoleNames() as $roleName)
+                                        <span class="text-xs bg-gray-700 text-gray-100 rounded-full px-2 py-0.5 mr-1 mb-1 inline-block">
+                                            {{ $roleName }}
+                                        </span>
+                                    @empty
+                                        <span class="text-xs text-gray-500">No Role Provided</span>
+                                    @endforelse
+                                </div>
+                            </div>
+
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">Added:</p>
+                                <p class="mt-1 text-gray-900">
+                                    {{ $user->created_at->format('j M Y, g:i a') }}
+                                </p>
+                            </div>
+
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">Last Updated:</p>
+                                <p class="mt-1 text-gray-900">
+                                    {{ $user->updated_at->format('j M Y, g:i a') }}
+                                </p>
+                            </div>
                         </div>
 
-                        <div class="grid grid-rows-3  ">
-                            <p class="text-gray-500 text-sm ">Email:</p>
-                            <p class="w-full ml-4">
-                                {{ $user->email ?? "No Email Provided" }}
-                            </p>
-                        </div>
 
-                        <div class="grid grid-rows-3  ">
-                            <p class="text-gray-500 text-sm ">Role:</p>
-                            <p class="w-full ml-4">
-                                {{ $user->role ?? "No Role Provided" }}
-                            </p>
-                        </div>
-
-                        <div class="grid grid-rows-3  ">
-                            <p class="text-gray-500 text-sm ">Added:</p>
-                            <p class="w-full ml-4">
-                                {{ $user->created_at->format('j M Y') }}
-                            </p>
-                        </div>
-
-                        <div class="grid grid-rows-3  ">
-                            <p class="text-gray-500 text-sm ">Last Updated:</p>
-                            <p class="w-full ml-4">
-                                {{ $user->updated_at->format('j M Y') }}
-                            </p>
-                        </div>
-
-                        <!-- Only Admin and Staff access these options -->
-                        <form method="POST"
-                              class="flex my-8 gap-6 ml-4"
-                              action="{{ route('users.delete', $user) }}">
-
-                            @csrf
-
+                        {{-- Action Buttons --}}
+                        <div class="flex mt-8 gap-4"> {{-- Removed form wrapper for non-POST actions --}}
                             <a href="{{ route('users.index') }}"
-                               class="bg-gray-100 hover:bg-blue-500
-                                          text-blue-800 hover:text-gray-100 text-center
-                                          border border-gray-300
-                                          transition ease-in-out duration-300
-                                          p-2 min-w-24 rounded">
-                                <i class="fa-solid fa-user inline-block"></i>
+                               class="px-4 py-2 bg-gray-200 text-gray-800 border border-gray-300 rounded-md
+                                      hover:bg-gray-300 transition ease-in-out duration-150 text-sm font-medium">
+                                <i class="fa-solid fa-list mr-1"></i> {{-- Changed icon --}}
                                 {{ __('All Users') }}
                             </a>
 
+                            @can('update', $user) {{-- Authorization check --}}
                             <a href="{{ route('users.edit', $user) }}"
-                               class="bg-gray-100 hover:bg-amber-500
-                                        text-amber-800 hover:text-gray-100  text-center
-                                          border border-gray-300
-                                          transition ease-in-out duration-300
-                                          p-2 min-w-24 rounded">
-                                <i class="fa-solid fa-user-edit text-sm"></i>
+                               class="px-4 py-2 bg-yellow-500 text-white border border-transparent rounded-md
+                                        hover:bg-yellow-600 transition ease-in-out duration-150 text-sm font-medium">
+                                <i class="fa-solid fa-user-edit mr-1"></i>
                                 {{ __('Edit') }}
                             </a>
+                            @endcan
 
-                            <button type="submit"
-                                    class="bg-gray-100 hover:bg-red-500
-                                             text-red-800 hover:text-gray-100 text-center
-                                             border border-gray-300
-                                          transition ease-in-out duration-300
-                                          p-2 min-w-16 rounded">
-                                <i class="fa-solid fa-user-minus text-sm"></i>
+                            @can('delete', $user) {{-- Authorization check --}}
+                            <a href="{{ route('users.delete', $user) }}" 
+                               class="px-4 py-2 bg-red-600 text-white border border-transparent rounded-md
+                                        hover:bg-red-700 transition ease-in-out duration-150 text-sm font-medium">
+                                <i class="fa-solid fa-user-minus mr-1"></i>
                                 {{ __('Delete') }}
-                            </button>
-
-                        </form>
-                        <!-- /Only Admin and Staff access these options -->
+                            </a>
+                            @endcan
+                        </div>
 
                     </section>
 

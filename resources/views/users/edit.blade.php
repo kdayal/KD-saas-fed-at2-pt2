@@ -84,7 +84,8 @@
                                 <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2"/>
                             </div>
 
-                            {{-- Yahan par naya roles wala code daalein --}}
+                            
+                            
                             <div class="flex flex-col mt-4">
                                 <x-input-label for="roles" :value="__('Assign Roles (Hold Ctrl/Cmd to select multiple)')"/>
                                 <select name="roles[]" id="roles" multiple class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm h-32">

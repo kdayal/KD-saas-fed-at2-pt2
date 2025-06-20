@@ -76,7 +76,7 @@ class RoleController extends Controller
         if ($request->has('permissions')) {
             $role->syncPermissions($request->permissions);
         } else {
-            $role->syncPermissions([]); // Remove all permissions if none are selected
+            $role->syncPermissions([]); 
         }
 
         return redirect(route('admin.roles.index'))->with('success', 'Role updated successfully.');

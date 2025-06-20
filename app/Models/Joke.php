@@ -45,7 +45,7 @@ class Joke extends Model
         return $this->interactions()->where('type', 'dislike')->count();
     }
 
-    // Check if the currently authenticated user has liked this joke
+    //  if the currently authenticated user has liked this joke
     public function isLikedByAuthUser()
     {
         if (!Auth::check()) {

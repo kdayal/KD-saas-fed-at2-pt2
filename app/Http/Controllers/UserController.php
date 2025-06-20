@@ -18,6 +18,7 @@ class UserController extends Controller
     public function index(): View // Add return type
     {
         $search = request()->query('search');
+            $query = User::query()->with('roles'); 
         if ($search) {
             $users = User::where('name', 'LIKE', "%{$search}%")
                          ->orWhere('email', 'LIKE', "%{$search}%")
@@ -122,8 +123,8 @@ class UserController extends Controller
      */
     public function edit(User $user): View
     {
-        $roles = Role::orderBy('name')->get(); // Get all roles
-        $userRoles = $user->roles->pluck('name')->toArray(); // Get current roles of the user
+        $roles = Role::orderBy('name')->get(); 
+        $userRoles = $user->roles->pluck('name')->toArray(); 
         return view('users.edit', compact('user', 'roles', 'userRoles'));
     }
 
