@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Joke; 
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -9,8 +10,8 @@ class StaticPagesController extends Controller
 {
     public function welcome(): View 
     {
-       
-       return view('static.welcome');
+        $randomJoke = Joke::inRandomOrder()->first();
+       return view('static.welcome', compact('randomJoke'));
     }
     public function about(): View
     {
@@ -31,5 +32,13 @@ class StaticPagesController extends Controller
     public function pricing(): View
     {
         return view('static.pricing');
+    }
+
+     /**
+     * Privacy page 
+     */
+    public function privacy(): View
+    {
+        return view('static.privacy');
     }
 }

@@ -20,7 +20,7 @@
 | Item              | Value                                     | Notes                                      |
 |-------------------|-------------------------------------------|--------------------------------------------|
 | APP_KEY           | [The actual key from your .env file]      | From your .env file                        |
-| Santina Deckow  | tdurgan@example.net / password1             | Default seeded admin user                  |
+| Santina Deckow  | tdurgan@example.net / password             | Default seeded admin user                  |
 | Reynold Bednar  | kaela.jacobson@example.com / password             | Default seeded staff user                  |
 | Mrs. Stacy Rolfson | athena19@example.org / password           | Default seeded client user                 |
 
