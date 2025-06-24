@@ -100,11 +100,13 @@ class UserController extends Controller
         // Validation will be handled in StoreUserRequest
         $validatedData = $request->validated();
 
+        // Construct the full name from given and family names
         User::create([
-            'name' => $validatedData['name'],
+            'name' => $validatedData['given_name'] . ' ' . $validatedData['family_name'],
+            'given_name' => $validatedData['given_name'],
+            'family_name' => $validatedData['family_name'],
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
-            // 'role' => $validatedData['role'], // If 'role' field exists
         ]);
 
         return redirect(route('users.index'))->with('success', 'User created successfully.');
@@ -137,9 +139,10 @@ class UserController extends Controller
         // Validation will be handled in UpdateUserRequest
         $validatedData = $request->validated();
 
-        $user->name = $validatedData['name'];
+        $user->given_name = $validatedData['given_name'];
+        $user->family_name = $validatedData['family_name'];
+        $user->name = $validatedData['given_name'] . ' ' . $validatedData['family_name'];
         $user->email = $validatedData['email'];
-        // $user->role = $validatedData['role']; // If 'role' field exists
 
         // If password is being updated (optional)
         if (!empty($validatedData['password'])) {

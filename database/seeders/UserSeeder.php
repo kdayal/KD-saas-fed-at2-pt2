@@ -14,36 +14,28 @@ class UserSeeder extends Seeder
     {
         $seedUsers = [
             [
-                'id' => 100,
-                'name' => 'Admin Istrator',
-                'email' => 'admin@example.com',
-                'password' => 'Password1',
+                'name' => 'Santina Deckow',
+                'email' => 'tdurgan@example.net',
+                'password' => 'password',
                 'email_verified_at' => now(),
             ],
-
             [
-                'id' => 200,
-                'name' => 'Staff User',
-                'email' => 'staff@example.com',
-                'password' => 'Password1',
-                'email_verified_at' => null,
+                'name' => 'Reynold Bednar',
+                'email' => 'kaela.jacobson@example.com',
+                'password' => 'password',
             ],
-
             [
-                'id' => 201,
-                'name' => 'Client User',
-                'email' => 'client@example.com',
-                'password' => 'Password1',
-                'email_verified_at' => null,
+                'name' => 'Mrs. Stacy Rolfson',
+                'email' => 'athena19@example.org',
+                'password' => 'password',
             ],
         ];
 
         foreach ($seedUsers as $user) {
-            $user = User::updateOrCreate(
-                ['id' => $user['id']],
+            User::updateOrCreate(
+                ['email' => $user['email']],
                 $user
             );
         }
-
     }
 }

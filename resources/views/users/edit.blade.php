@@ -42,24 +42,32 @@
                             @csrf
                             @method('patch')
 
-                            <div class="flex flex-col">
-
-                                <x-input-label for="name" :value="__('Name')"/>
-
-                                <x-text-input id="name" class="block mt-1 w-full"
-                                              type="text"
-                                              name="name"
-                                              :value="old('name')??$user->name"
-                                              required autofocus autocomplete="name"/>
-
-                                <x-input-error :messages="$errors->get('name')" class="mt-2"/>
-
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="flex flex-col">
+                                    <x-input-label for="given_name" :value="__('Given Name')"/>
+                                    <x-text-input id="given_name" class="block mt-1 w-full"
+                                                  type="text"
+                                                  name="given_name"
+                                                  :value="old('given_name', $user->given_name)"
+                                                  required autofocus autocomplete="given-name"/>
+                                    <x-input-error :messages="$errors->get('given_name')" class="mt-2"/>
+                                </div>
+    
+                                <div class="flex flex-col">
+                                    <x-input-label for="family_name" :value="__('Family Name')"/>
+                                    <x-text-input id="family_name" class="block mt-1 w-full"
+                                                  type="text"
+                                                  name="family_name"
+                                                  :value="old('family_name', $user->family_name)"
+                                                  required autocomplete="family-name"/>
+                                    <x-input-error :messages="$errors->get('family_name')" class="mt-2"/>
+                                </div>
                             </div>
 
                             <div class="flex flex-col">
                                 <x-input-label for="Email" :value="__('Email')"/>
-                                <x-text-input id="Email" class="block mt-1 w-full"
-                                              type="text"
+                                <x-text-input id="Email" class="block mt-1 w-full" {{-- Changed type to email --}}
+                                              type="email"
                                               name="email"
                                               :value="old('email')??$user->email"
                                               required autofocus autocomplete="email"/>

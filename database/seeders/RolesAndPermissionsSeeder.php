@@ -59,11 +59,11 @@ class RolesAndPermissionsSeeder extends Seeder
             'Joke-Trash-Recover (one)', 'Joke -Trash-Remove (one)', 
         ]);
 
-        
-        // Assuming you have a User with ID 1
-        $adminUser = User::find(1); 
-        if ($adminUser) {
-            $adminUser->assignRole('Administrator');
-        }
+        // Assign roles to the users created in UserSeeder
+        User::where('email', 'tdurgan@example.net')->first()?->assignRole('Administrator');
+        User::where('email', 'kaela.jacobson@example.com')->first()?->assignRole('Staff');
+        User::where('email', 'athena19@example.org')->first()?->assignRole('Client');
+
+        // You can also assign roles to any factory-created users here if needed
     }
 }

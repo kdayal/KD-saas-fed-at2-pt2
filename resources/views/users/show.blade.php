@@ -37,9 +37,23 @@
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 mb-6"> {{-- Improved layout for details --}}
                             <div>
-                                <p class="text-gray-500 text-sm font-medium">Name:</p>
+                                <p class="text-gray-500 text-sm font-medium">Full Name:</p>
                                 <p class="mt-1 text-gray-900">
                                     {{ $user->name ?? "No Name provided" }}
+                                </p>
+                            </div>
+
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">Given Name:</p>
+                                <p class="mt-1 text-gray-900">
+                                    {{ $user->given_name ?? "N/A" }}
+                                </p>
+                            </div>
+
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">Family Name:</p>
+                                <p class="mt-1 text-gray-900">
+                                    {{ $user->family_name ?? "N/A" }}
                                 </p>
                             </div>
 

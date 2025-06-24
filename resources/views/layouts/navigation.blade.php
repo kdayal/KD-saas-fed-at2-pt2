@@ -30,11 +30,13 @@
                             {{ __('Dashboard') }}
                         </x-nav-link>
 
-                        {{-- Added Users Link --}}
-                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
-                            <i class="fa-solid fa-users mr-1"></i>
-                            {{ __('Users') }}
-                        </x-nav-link>
+                        @can('viewAny', App\Models\User::class)
+                            {{-- Users Link - visible only to authorized users --}}
+                            <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
+                                <i class="fa-solid fa-users mr-1"></i>
+                                {{ __('Users') }}
+                            </x-nav-link>
+                        @endcan
 
                         {{-- Added Jokes Link --}}
                         <x-nav-link :href="route('jokes.index')" :active="request()->routeIs('jokes.*')">
@@ -159,11 +161,13 @@
                     {{ __('Dashboard') }}
                 </x-responsive-nav-link>
 
-                {{-- Added Users Responsive Link --}}
-                <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
-                    <i class="fa-solid fa-users mr-1"></i>
-                    {{ __('Users') }}
-                </x-responsive-nav-link>
+                @can('viewAny', App\Models\User::class)
+                    {{-- Users Responsive Link - visible only to authorized users --}}
+                    <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
+                        <i class="fa-solid fa-users mr-1"></i>
+                        {{ __('Users') }}
+                    </x-responsive-nav-link>
+                @endcan
 
                 {{-- Added Jokes Responsive Link --}}
                 <x-responsive-nav-link :href="route('jokes.index')" :active="request()->routeIs('jokes.*')">

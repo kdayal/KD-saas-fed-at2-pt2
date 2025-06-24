@@ -16,6 +16,6 @@ class Category extends Model
      */
     public function jokes()
     {
-        return $this->belongsToMany(Joke::class); // Pivot table name 'category_joke' will be inferred
+        return $this->belongsToMany(Joke::class,'category_joke'); // Pivot table name 'category_joke' will be inferred
     }
 }

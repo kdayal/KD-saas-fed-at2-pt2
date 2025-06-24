@@ -197,12 +197,15 @@ Once the application is running, you can interact with it as follows:
     *   View, add, edit, delete roles and assign permissions to them.
 
 **Example Screenshot:**
-![alt text](<Screenshot 2025-06-20 094749.png>)
-![alt text](<Screenshot 2025-06-20 094804.png>)
-![alt text](<Screenshot 2025-06-20 094819.png>)
+![user list](<Screenshot 2025-06-20 094749.png>)
+![jokes list](<Screenshot 2025-06-20 094804.png>)
+![manage role](<Screenshot 2025-06-20 094819.png>)
+![This is what the admin login and dashboard look like.](<Screenshot 2025-06-21 133154.png>) 
+![home page](<Screenshot 2025-06-21 133142.png>)
 
 ```md
 ![Admin Categories Page](assets/images/admin-categories-list.png)
+
 
 Credits
 Lecturer: Adrian Gould, North Metropolitan TAFE (GitHub Profile)

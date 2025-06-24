@@ -14,13 +14,15 @@ class JokeFactory extends Factory
      *
      * @return array<string, mixed>
      */
+    
+    
     public function definition(): array
     {
         return [
             'user_id' => User::factory(), 
             'title' => $this->faker->sentence(4),
             'body' => $this->faker->paragraph(3),
-            'category' => $this->faker->randomElement(['Pun', 'Observational', 'One-liner']),
+            //'category' => $this->faker->randomElement(['Pun', 'Observational', 'One-liner']),
         ];
         
     }
