@@ -15,7 +15,8 @@ class UpdateUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        // Use the UserPolicy to determine if the current user can update the target user.
+        return $this->user()->can('update', $this->route('user'));
     }
 
     /**
@@ -26,11 +27,12 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'roles' => ['nullable', 'array'],
-        'roles.*' => ['string', 'exists:roles,name'],
-        'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique(User::class)->ignore($this->route('user')->id)], 
+            'given_name' => ['required', 'string', 'max:255'],
+            'family_name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique(User::class)->ignore($this->route('user')->id)],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+            'roles' => ['nullable', 'array'],
+            'roles.*' => ['string', 'exists:roles,name'],
         ];
     }
 }
