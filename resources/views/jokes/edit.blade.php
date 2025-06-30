@@ -55,13 +55,13 @@
 
                             {{-- Joke Content Field --}}
                             <div class="flex flex-col">
-                                <x-input-label for="content" :value="__('Content')"/> {{-- Updated label --}}
-                                <textarea id="content"
-                                          name="content"
+                                <x-input-label for="body" :value="__('Content')"/> {{-- Updated label --}}
+                                <textarea id="body"
+                                          name="body"
                                           rows="6"
                                           class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
-                                          required>{{ old('content', $joke->content) }}</textarea> {{-- Pre-fill with existing joke content --}}
-                                <x-input-error :messages="$errors->get('content')" class="mt-2"/>
+                                          required>{{ old('body', $joke->body) }}</textarea> {{-- Pre-fill with existing joke content --}}
+                                <x-input-error :messages="$errors->get('body')" class="mt-2"/>
                             </div>
 
                             {{-- Joke Category Field  --}}

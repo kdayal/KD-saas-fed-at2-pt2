@@ -13,7 +13,8 @@ class JokePolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        // Any authenticated user can view the list of jokes.
+        return true;
     }
 
     /**
@@ -21,7 +22,8 @@ class JokePolicy
      */
     public function view(User $user, Joke $joke): bool
     {
-        return false;
+        // Any authenticated user can view a single joke.
+        return true;
     }
 
     /**
@@ -29,7 +31,8 @@ class JokePolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        // Any authenticated user can create a joke.
+        return true;
     }
 
     /**
@@ -37,7 +40,8 @@ class JokePolicy
      */
     public function update(User $user, Joke $joke): bool
     {
-        return false;
+        // An admin/staff can update any joke, or a user can update their own joke.
+        return $user->hasRole(['Administrator', 'Staff']) || $user->id === $joke->user_id;
     }
 
     /**
@@ -45,20 +49,17 @@ class JokePolicy
      */
     public function delete(User $user, Joke $joke): bool
     {
-      if ($user->hasRole(['Administrator', 'Staff'])) {
-        return true;
+        // An admin/staff can delete any joke, or a user can delete their own joke.
+        return $user->hasRole(['Administrator', 'Staff']) || $user->id === $joke->user_id;
     }
-    return $user->id === $joke->user_id;
-}
-
-    
 
     /**
      * Determine whether the user can restore the model.
      */
     public function restore(User $user, Joke $joke): bool
     {
-        return false;
+        // Only Admins or Staff should be able to restore jokes.
+        return $user->hasRole(['Administrator', 'Staff']);
     }
 
     /**
@@ -66,6 +67,7 @@ class JokePolicy
      */
     public function forceDelete(User $user, Joke $joke): bool
     {
-        return false;
+        // Only Admins should be able to permanently delete jokes.
+        return $user->hasRole('Administrator');
     }
 }

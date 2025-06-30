@@ -89,25 +89,32 @@ class UserController extends Controller
      */
     public function create(): View // Add return type
     {
-        return view('users.create'); // Show create.blade.php view
+        $this->authorize('create', User::class);
+        // Fetch roles that can be assigned. Exclude 'Administrator' to prevent creating new admins.
+        $roles = Role::where('name', '!=', 'Administrator')->pluck('name', 'name');
+        return view('users.create', compact('roles'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserRequest $request): RedirectResponse // Add return type
+    public function store(StoreUserRequest $request): RedirectResponse
     {
+        $this->authorize('create', User::class);
         // Validation will be handled in StoreUserRequest
         $validatedData = $request->validated();
 
         // Construct the full name from given and family names
-        User::create([
+        $user = User::create([
             'name' => $validatedData['given_name'] . ' ' . $validatedData['family_name'],
             'given_name' => $validatedData['given_name'],
             'family_name' => $validatedData['family_name'],
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
         ]);
+
+        // Assign the selected role
+        $user->assignRole($validatedData['role']);
 
         return redirect(route('users.index'))->with('success', 'User created successfully.');
     }

@@ -132,6 +132,7 @@ class JokeController extends Controller
      */
     public function trash(): View
     {
+        $this->authorize('restore', new Joke());
         $jokes = Joke::onlyTrashed()->with('user')->latest()->paginate(10);
         return view('jokes.trash', compact('jokes'));
     }
@@ -143,6 +144,7 @@ class JokeController extends Controller
     public function recoverOne($id): RedirectResponse
     {
         $joke = Joke::onlyTrashed()->findOrFail($id);
+        $this->authorize('restore', $joke);
         $joke->restore();
         return redirect(route('jokes.trash'))->with('success', 'Joke restored successfully.');
     }
@@ -154,6 +156,7 @@ class JokeController extends Controller
     public function emptyOne($id): RedirectResponse
     {
         $joke = Joke::onlyTrashed()->findOrFail($id);
+        $this->authorize('forceDelete', $joke);
         $joke->forceDelete();
         return redirect(route('jokes.trash'))->with('success', 'Joke permanently deleted.');
     }
@@ -163,6 +166,7 @@ class JokeController extends Controller
      */
     public function recoverAll(): RedirectResponse
     {
+        $this->authorize('restore', new Joke());
         Joke::onlyTrashed()->restore();
         return redirect(route('jokes.trash'))->with('success', 'All jokes restored from trash.');
     }
@@ -172,6 +176,7 @@ class JokeController extends Controller
      */
     public function emptyAll(): RedirectResponse
     {
+        $this->authorize('forceDelete', new Joke());
         Joke::onlyTrashed()->forceDelete();
         return redirect(route('jokes.trash'))->with('success', 'Trash emptied successfully.');
     }

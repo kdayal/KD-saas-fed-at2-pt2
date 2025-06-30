@@ -41,20 +41,27 @@
 
                             @csrf
 
-                            <div class="flex flex-col">
-                                <x-input-label for="name" :value="__('Name')"/>
-                                <x-text-input id="name" class="block mt-1 w-full"
-                                              type="text"
-                                              name="name"
-                                              :value="old('name')"
-                                              required autofocus autocomplete="name"/>
-                                <x-input-error :messages="$errors->get('name')" class="mt-2"/>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="flex flex-col">
+                                    <x-input-label for="given_name" :value="__('Given Name')"/>
+                                    <x-text-input id="given_name" class="block mt-1 w-full"
+                                                  type="text" name="given_name" :value="old('given_name')" required
+                                                  autofocus autocomplete="given-name"/>
+                                    <x-input-error :messages="$errors->get('given_name')" class="mt-2"/>
+                                </div>
+                                <div class="flex flex-col">
+                                    <x-input-label for="family_name" :value="__('Family Name')"/>
+                                    <x-text-input id="family_name" class="block mt-1 w-full"
+                                                  type="text" name="family_name" :value="old('family_name')" required
+                                                  autocomplete="family-name"/>
+                                    <x-input-error :messages="$errors->get('family_name')" class="mt-2"/>
+                                </div>
                             </div>
 
                             <div class="flex flex-col">
                                 <x-input-label for="Email" :value="__('Email')"/>
                                 <x-text-input id="Email" class="block mt-1 w-full"
-                                              type="text"
+                                              type="email"
                                               name="email"
                                               :value="old('email')"
                                               required autofocus autocomplete="email"/>
@@ -64,37 +71,34 @@
                             <div class="flex flex-col">
                                 <x-input-label for="Password" :value="__('Password')"/>
                                 <x-text-input id="Password" class="block mt-1 w-full"
-                                              type="text"
+                                              type="password"
                                               name="password"
-                                              :value="old('password')"
-                                              required autofocus/>
+                                              required autocomplete="new-password"/>
                                 <x-input-error :messages="$errors->get('password')" class="mt-2"/>
                             </div>
 
                             <div class="flex flex-col">
                                 <x-input-label for="Password_Confirmation" :value="__('Confirm Password')"/>
                                 <x-text-input id="Password_Confirmation" class="block mt-1 w-full"
-                                              type="text"
+                                              type="password"
                                               name="password_confirmation"
-                                              :value="old('password_confirmation')"
-                                              required autofocus/>
+                                              required autocomplete="new-password"/>
                                 <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2"/>
                             </div>
 
 
                             <div class="flex flex-col">
                                 <x-input-label for="Role" :value="__('Role')"/>
-                                <select id="Role"
+                                <select id="role"
                                         class="block mt-1 w-full px-2 py-1 border-gray-300
                                             focus:outline-indigo-500 focus:outline-2 focus:ring-2 focus:ring-indigo-500
                                               rounded-md shadow-sm"
-                                        type="text"
                                         name="role"
-                                        :value="old('role')"
-                                        required autofocus autocomplete="role">
-                                    <option>
-                                        Role will be implemented with Roles & Permissions
-                                    </option>
+                                        required>
+                                    <option value="" disabled selected>Select a role</option>
+                                    @foreach($roles as $role)
+                                        <option value="{{ $role }}" {{ old('role') == $role ? 'selected' : '' }}>{{ $role }}</option>
+                                    @endforeach
                                 </select>
 
                                 <x-input-error :messages="$errors->get('role')" class="mt-2"/>

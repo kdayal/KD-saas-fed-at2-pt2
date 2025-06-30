@@ -5,7 +5,7 @@
                 {{ __('Trashed Users') }}
             </h2>
             <div>
-                <a href="{{ route('.users.index') }}"
+                <a href="{{ route('users.index') }}"
                    class="text-sm text-blue-600 hover:text-blue-900 transition ease-in-out duration-150 mr-4">
                     &larr; {{ __('Back to Users List') }}
                 </a>
@@ -60,10 +60,9 @@
                                 <p class="col-span-2 text-xs text-gray-500">{{ $user->email }}</p>
 
                                 <p class="col-span-2">
-                                    <span class="text-xs bg-gray-700 text-gray-100 rounded-full px-2 py-0.5">
-                                        {{-- Assuming you have a role attribute or relationship --}}
-                                        {{ $user->role ?? 'N/A' }}
-                                    </span>
+                                     @foreach ($user->getRoleNames() as $roleName)
+                                        <span class="text-xs bg-gray-700 text-gray-100 rounded-full px-2 py-0.5">{{ $roleName }}</span>
+                                    @endforeach
                                 </p>
                                 <p class="col-span-2 text-xs text-gray-500">
                                     {{ $user->deleted_at ? $user->deleted_at->format('j M Y, g:i a') : 'N/A' }}

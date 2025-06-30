@@ -58,7 +58,13 @@
                                 <h5 class="col-span-3 text-gray-800">
                                     {{ Str::limit($joke->title, 50) }} {{-- Display joke title --}}
                                 </h5>
-                                <p class="col-span-2 text-xs text-gray-500">{{ $joke->category ?? 'N/A' }}</p> {{-- Display joke category --}}
+                                <div class="col-span-2 text-xs text-gray-500">
+                                    @forelse($joke->categories as $category)
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800 mr-1 mb-1">{{ $category->name }}</span>
+                                    @empty
+                                        N/A
+                                    @endforelse
+                                </div>
 
                                 <p class="col-span-2 text-xs text-gray-500">
                                     {{ $joke->user->name ?? 'Unknown' }} {{-- Display joke author --}}

@@ -77,18 +77,18 @@
                             <div class="flex flex-col">
                                 <x-input-label for="Password" :value="__('Password (leave blank to keep current)')"/>
                                 <x-text-input id="Password" class="block mt-1 w-full"
-                                              type="password" {{-- Changed type to password --}}
+                                              type="password"
                                               name="password"
-                                              autofocus/>
+                                              autocomplete="new-password"/>
                                 <x-input-error :messages="$errors->get('password')" class="mt-2"/>
                             </div>
 
                             <div class="flex flex-col">
                                 <x-input-label for="Password_Confirmation" :value="__('Confirm Password')"/>
                                 <x-text-input id="Password_Confirmation" class="block mt-1 w-full"
-                                              type="password" {{-- Changed type to password --}}
+                                              type="password"
                                               name="password_confirmation"
-                                              autofocus/>
+                                              autocomplete="new-password"/>
                                 <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2"/>
                             </div>
 
