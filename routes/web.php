@@ -25,21 +25,22 @@ Route::get('/', [StaticPagesController::class, 'welcome'])->name('home');
 Route::get('/welcome', [StaticPagesController::class, 'welcome'])->name('welcome.explicit');
 Route::get('/about', [StaticPagesController::class, 'about'])->name('about');
 Route::get('/contact-us', [StaticPagesController::class, 'contactUs'])->name('contact-us');
+Route::get('/privacy', [StaticPagesController::class, 'privacy'])->name('privacy');
 Route::get('/pricing', [StaticPagesController::class, 'pricing'])->name('pricing');
-
-// Dashboard route, requires authentication and email verification
-Route::get('/dashboard', function () {
-        $categoryCount = Category::count(); 
-    return view('static.dashboard' ,  compact('categoryCount'));
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 // Authenticated user routes
     Route::middleware('auth')->group(function () {
 
-         // Joke Trash Routes
+    // Dashboard route, requires authentication and email verification
+    Route::get('/dashboard', function () {
+            $categoryCount = Category::count(); 
+        return view('static.dashboard' ,  compact('categoryCount'));
+    })->middleware(['auth', 'verified'])->name('dashboard');
+    
     Route::prefix('jokes/trash')->name('jokes.')->group(function () {
         Route::get('/', [JokeController::class, 'trash'])->name('trash');
     });
+    
     // Profile management routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -81,8 +82,6 @@ Route::get('/dashboard', function () {
         Route::patch('/recover-all', [JokeController::class, 'recoverAll'])->name('recover-all');
         Route::delete('/empty', [JokeController::class, 'emptyAll'])->name('empty-all');
     });
-
-    
 
 }); // Main 'auth' group closes here
 
